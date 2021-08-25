@@ -13,7 +13,7 @@ typedef int ElemType;
 typedef int Status;
 ElemType *p, *q;
 
-
+// 线性表的顺序表的存储结构
 typedef struct
 {
     ElemType *elem;  // 存储空间基址

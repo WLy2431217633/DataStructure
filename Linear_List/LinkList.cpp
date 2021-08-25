@@ -28,7 +28,7 @@ Status ListInsert_L(LinkList &L, int i, ElemType e);
 Status GetElem_L(LinkList L, int i, ElemType &e);
 
 // 打印链表
-void PrintfLinkList_L(LNode *L);
+void PrintfLinkList_L(LinkList L);
 
 int main()
 {
@@ -38,15 +38,17 @@ int main()
     cout << "Input LinkList number: ";
     cin >> n;
     CreateList_L(L, n);
+    cout << "LinkList have elem:" << endl;
     PrintfLinkList_L(L);
     cout << "Input Insert pos and num:";
     cin >> pos >> e;
     ListInsert_L(L, pos, e);
+    //PrintfLinkList_L(L);
 
-    cout << "Input GetElem pos: ";
-    cin >> pos;
-    GetElem_L(L,pos,e);
-    PrintfLinkList_L(L);
+    //cout << "Input GetElem pos: ";
+    //cin >> pos;
+    //GetElem_L(L,5,e);
+    //PrintfLinkList_L(L);
 
     return 0;
 }
@@ -117,17 +119,17 @@ Status GetElem_L(LinkList L, int i, ElemType &e)
         p = p->next;
         ++j;
     }
-    if(!p || j > i) return ERROR;         // 第i个元素不存在
+    if(!p || j > i) 
+        return ERROR;                     // 第i个元素不存在
     e = p->data;                          // 取第i个元素
     return OK;
 }// GetElem_L
 
 // 打印链表
-void PrintfLinkList_L(LNode *L)
+void PrintfLinkList_L(LinkList L)
 {
-    LNode *temp = L;
+    LinkList temp = L;
     int count = 0;  // 计数器
-    cout << "LinkList: " << endl;
     while(temp->next)
     {
         temp = temp->next;
