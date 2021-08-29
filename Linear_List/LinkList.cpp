@@ -30,26 +30,48 @@ Status GetElem_L(LinkList L, int i, ElemType &e);
 // 打印链表
 void PrintfLinkList_L(LinkList L);
 
+// 链表删除元素
+Status ListDelete_L(LinkList &L, int i, ElemType &e);
+
+// 链表合并
+void MergeList_L(LinkList &La, LinkList &Lb, LinkList &Lc);
+
 int main()
 {
     
     LinkList L;
-    int n, pos, e;
+    int n, pos1, pos2, pos3, e1, e2, e3, n1, n2;
     cout << "Input LinkList number: ";
     cin >> n;
     CreateList_L(L, n);
     cout << "LinkList have elem:" << endl;
     PrintfLinkList_L(L);
+
+    //PrintfLinkList_L(L);
+
+    cout << "Input GetElem pos: ";
+    cin >> pos1;
+    GetElem_L(L,pos1,e1);
+    cout << "Delete Elem pos: ";
+    cin >> pos2;
+    ListDelete_L(L,pos2,e2);
+    PrintfLinkList_L(L);
+
     cout << "Input Insert pos and num:";
-    cin >> pos >> e;
-    ListInsert_L(L, pos, e);
-    //PrintfLinkList_L(L);
+    cin >> pos3 >> e3;
+    ListInsert_L(L, pos3, e3);
+    PrintfLinkList_L(L);
 
-    //cout << "Input GetElem pos: ";
-    //cin >> pos;
-    //GetElem_L(L,5,e);
-    //PrintfLinkList_L(L);
 
+    LinkList La, Lb, Lc;
+    cout << "Input LinkList La number: ";
+    cin >> n1;
+    CreateList_L(La, n1);
+    cout << "Input LinkList Lb number: ";
+    cin >> n2;
+    CreateList_L(Lb, n2);
+    MergeList_L(La, Lb, Lc);
+    PrintfLinkList_L(Lc);
     return 0;
 }
 
@@ -84,11 +106,11 @@ Status ListInsert_L(LinkList &L, int i, ElemType e)
     int j;
     // 带头结点的 单链表L 第i个位置之前 插入元素e
     p = L; 
-    j = 0;
+    j = 1;
     while(p && j < i - 1)    // 寻找第i个结点
     {
         p = p->next;         // 头结点的指针依次后移至i-1位置
-        ++j;
+        j++;
     }
 
     if(!p || j > i-1)        // i小于1或者大于表长+1
@@ -107,21 +129,24 @@ Status ListInsert_L(LinkList &L, int i, ElemType e)
 
 // 查找第i位的值
 Status GetElem_L(LinkList L, int i, ElemType &e)
-{
-    LinkList p;
-    int j;
+{                          
     // L为带头结点的单链表的头指针
     // 当第i个元素存在时，其值赋给e并返回第一个结点，否则返回ERROR
-    p = L->next;                          // 初始化，p指向第一个结点，j为计数器
-    j = 1;
+    LinkList p = L->next;                          // 初始化，p指向第一个结点，j为计数器
+    int j = 1;
     while(p && j < i)                     // 顺指针向后查找，直到p指向第i个元素或p为空
     {
         p = p->next;
-        ++j;
+        j++;
     }
     if(!p || j > i) 
+    {
+        cout << "Elem no exit!" << endl;
         return ERROR;                     // 第i个元素不存在
+    }
+
     e = p->data;                          // 取第i个元素
+    cout << "Number: " << i << " is: " << e << endl;
     return OK;
 }// GetElem_L
 
@@ -138,3 +163,58 @@ void PrintfLinkList_L(LinkList L)
     }
     cout << endl;
 }
+
+// 链表删除元素
+Status ListDelete_L(LinkList &L, int i, ElemType &e)
+{
+    LinkList p;
+    // 带头结点的单链表L中，删除第i个元素，并由e返回其值
+    p = L;
+    int j = 0;
+    while(p->next && j < i-1)       // 寻找第i个结点，并令p指向其前趋
+    {
+        p = p->next;
+        j++;
+    }
+    if(!(p->next) || j > i-1)       // 删除位置不合理
+        return ERROR;
+    LinkList q = new LNode;         // 生成新结点
+
+    // 删除并释放结点
+    q = p->next;
+    p->next = q->next;     
+    e = q->data;
+    free(q);
+    return OK;
+
+
+}// ListDelete_L
+
+// 链表合并
+void MergeList_L(LinkList &La, LinkList &Lb, LinkList &Lc)
+{
+    // 一直单链表La和Lb的元素按值非递减排列
+    // 归并La和Lb得到新的链表Lc，Lc的元素也按值非递减排列
+    LNode *pa = La->next;
+    LNode *pb = Lb->next;     
+    LNode *pc;
+    Lc = pc = La;             // 用La的头结点作为Lc的头结点
+    while(pa && pb)
+    {
+        if(pa->data <= pb->data)
+        {
+            pc->next = pa;
+            pc = pa;
+            pa = pa->next;
+        }
+        else
+        {
+            pc->next = pb;
+            pc = pb;
+            pb = pb->next;
+        }
+    }
+    pc->next = pa ? pa : pb;   // 插入剩余段
+    free(Lb);                  // 释放Lb的头结点
+}// MergeList_L
+
