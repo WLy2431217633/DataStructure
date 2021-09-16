@@ -4,7 +4,7 @@ using namespace std;
 
 #define OK 1                 // 返回真
 #define ERROR 0              // 返回假
-
+#define MAXSIZE 1000         // 链表最大长度
 
 typedef int ElemType;
 typedef int Status;
@@ -15,7 +15,8 @@ typedef struct LNode
 {
     ElemType data;       // 数据域
     struct LNode *next;  // 指针域
-}LNode, *LinkList;
+    int cur;             
+}LNode, *LinkList, SLinkList[MAXSIZE];
 
 
 // 创建链表 头插法
@@ -24,7 +25,7 @@ void CreateList_L(LinkList &L, int n);
 // 链表插入元素
 Status ListInsert_L(LinkList &L, int i, ElemType e);
 
-// 查找第i位的值
+// 查找第i位的值  按位查找
 Status GetElem_L(LinkList L, int i, ElemType &e);
 
 // 打印链表
@@ -36,11 +37,15 @@ Status ListDelete_L(LinkList &L, int i, ElemType &e);
 // 链表合并
 void MergeList_L(LinkList &La, LinkList &Lb, LinkList &Lc);
 
+// 在静态链表中 查找第1个值为e 的元素  按值查找
+int LocateELem_SL(SLinkList S, ElemType e);
+
+
 int main()
 {
     
     LinkList L;
-    int n, pos1, pos2, pos3, e1, e2, e3, n1, n2;
+    int n, pos1, pos2, pos3, e1, e2, e3, n1, n2, n3;
     cout << "Input LinkList number: ";
     cin >> n;
     CreateList_L(L, n);
@@ -62,6 +67,10 @@ int main()
     ListInsert_L(L, pos3, e3);
     PrintfLinkList_L(L);
 
+    //SLinkList S;
+    cout << "Input LocateELem num: ";
+    cin >> n3;
+    LocateELem_SL(L, n3);
 
     LinkList La, Lb, Lc;
     cout << "Input LinkList La number: ";
@@ -127,7 +136,7 @@ Status ListInsert_L(LinkList &L, int i, ElemType e)
 
 }// ListInsert_L
 
-// 查找第i位的值
+// 查找第i位的值  按位查找
 Status GetElem_L(LinkList L, int i, ElemType &e)
 {                          
     // L为带头结点的单链表的头指针
@@ -218,3 +227,17 @@ void MergeList_L(LinkList &La, LinkList &Lb, LinkList &Lc)
     free(Lb);                  // 释放Lb的头结点
 }// MergeList_L
 
+
+// 在静态链表中 查找第1个值为e 的元素  按值查找
+int LocateELem_SL(SLinkList S, ElemType e)
+{
+    // 若找到，则返回L中的位序，否则返回 0
+    int i = S[0].cur;                // i指示表中第一个结点
+    while(i && S[i].data != e)
+    {
+        i = S[i].cur; 
+    }       // 表中顺链查找
+    cout << "The num is : " << i << endl;
+    
+    return 0;
+} // LocateELem_SL
