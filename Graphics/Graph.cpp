@@ -15,7 +15,7 @@ typedef int VertexType;
 typedef double AdjMatrix[MaxVnum][MaxVnum];
 typedef struct Graph
 {
-    int vexnum, arcnum;
+    int vexnum, arcnum;         // 图当前结点的顶点数，弧数
     AdjMatrix arcs;
 };
 
@@ -30,17 +30,18 @@ typedef struct ArcNode
     struct ArcNode *nextarc;
 };
 
-// ------- PPT代码 头结点 --------
-typedef struct 
+// ------- PPT代码 头结点/顶点 --------
+typedef struct VNode
 {
     VertexType data;
     ArcNode *firstarc;
-}AdjList[MaxVnum];
+}VNode, AdjList[MaxVnum];
 
-// ------- PPT代码 表结点 --------
+// --------- 王道代码 邻接表表示法的类型定义 ---------
+// ------- PPT代码 邻接表结点 --------
 typedef struct AGraph
 {
-    int vexnum, arcnum;
-    AdjList vertices;
+    int vexnum, arcnum;                // 图的顶点数和弧数
+    AdjList vertices;                  // 邻接表
 };
 AGraph G;
