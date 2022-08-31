@@ -67,3 +67,88 @@ int Sq_search(SSTable ST, KeyType key)
     
     return 0;
 }
+
+// --------- PPT代码 二分（折半）查找算法 ---------
+int Binary_search(SSTable ST, KeyType key)
+{
+    // 在有序表中查找元素e，若查找成功，则返回元素在表中的位置
+    // 否则返回0
+    int low = 1;
+    int high = ST.length;
+    while (low <= high)
+    {
+        int mid = (low+high)/2;
+        if (ST.elem[mid].key == key)
+        {
+            return mid;                      //查找成功
+        }
+        else if (key < ST.elem[mid].key)
+        {
+            high = mid - 1;                  //下一次到前半区查找
+        }
+        else
+            low = mid + 1;                   //下一次到后半区查找 
+    }
+    return 0;                                //查找失败
+}
+
+
+// ------- PPT代码 二叉树的链式存储 -------
+typedef struct BiTNode{
+    ElemType data;
+    struct BiTNode *Lchild, *Rchild;
+}BiTNode, *BiTree;
+
+// --------- PPT代码 二叉排序树查找算法  ---------
+BiTree SearchBST(BiTree T, KeyType key)
+{
+    //在T指向根的二叉排序树中递归地查找关键字等于key的数据元素，
+    //若找到，返回指向该结点的指针，否则返回NULL
+    if (T == NULL)
+        return NULL;
+    else if (T->data.key == key)
+    {
+        return T;
+    }
+    else if (key < T->data.key)
+    {
+        return SearchBST(T->Lchild, key);
+    }
+    else
+        return SearchBST(T->Rchild, key);
+}//SearchBST
+
+// ---------- PPT代码 二叉排序树的插入算法 ----------
+Status InsertBST(BiTree &T, ElemType e)
+{
+    // 当二叉排序树中不存在关键字等于e.key的数据元素时，
+    // 插入元素e并返回true，否则返回false
+    BiTNode *p = T;
+    BiTNode *father = NULL;
+    while (p && p->data.key != e.key)
+    {
+        if (e.key > p->data.key)
+        {
+            p = p->Rchild;
+        }
+        else
+            p = p->Lchild;
+    }
+    if (p)  //键值为e.key的结点已经存在
+    {
+        return false;
+    }
+    BiTNode *s = new BiTNode;
+    s->data = e;
+    s->Lchild = s->Rchild = NULL;
+    if (father == NULL)
+    {
+        T = s;              // 新建结点为根结点
+    }
+    else if (e.key > father->data.key)
+    {
+        father->Rchild = s;
+    }
+    else
+        father->Lchild = s;
+}
