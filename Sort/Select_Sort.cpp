@@ -94,6 +94,4 @@ void HeapAdjust(HeapType &H, int s, int m)
         s = j;  
     }  
     H.r[s] = rc;                   //插入  rc应插入的位置在s处
-          
-
 }
