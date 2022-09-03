@@ -52,3 +52,48 @@ void Select_Sort(SqList &L)
     }
     
 }
+
+
+typedef SqList HeapType;             // 堆采用顺序表存储表示
+
+// ------- PPT代码 堆排序 --------
+void HeapSort(HeapType &H)
+{
+    for (int i = H.length/2; i > 0; --i)
+    {
+        HeapAdjust(H, i, H.length);
+    }
+    for (int i = H.length; i > 1; -- i)  
+    {  
+        RedType tmp = H.r[1];//将堆顶记录和当前未经排序子序列H.r[1..i]中最后一个记录相互交换  
+        H.r[1] = H.r[i];  
+        H.r[i] = tmp;  
+  
+        HeapAdjust(H, 1, i -1);//将H.r[1..i-1]重新调整为堆
+    }
+    
+}
+
+//  -------- PPT代码 筛选算法 -------------
+void HeapAdjust(HeapType &H, int s, int m)
+{
+    // H.r[s .. m]中除H.r[s].key外均满足堆的定义
+    // 调整H.r[s]的关键字，使H.r[s .. m]成为一个小顶堆
+    RedType rc = H.r[s];
+    for (int j = 2 * s; j <= m; j *= 2) //沿着值较大的孩子节点向下筛选  
+    {  
+        if (j < m && H.r[j].key > H.r[j+1].key)  
+        {  
+            ++ j;                       ////j为key较小的记录的下标 
+        }  
+        if (rc.key < H.r[j].key)  
+        {  
+            break;//rc应插入在位置s上  
+        }  
+        H.r[s] = H.r[j];             //较小的孩子结点值换到父结点位置
+        s = j;  
+    }  
+    H.r[s] = rc;                   //插入  rc应插入的位置在s处
+          
+
+}
