@@ -1,4 +1,5 @@
 #include <iostream>
+ #include<stack>           //头文件
 using namespace std;
 
 #define OVERFLOW -2          // 溢出
@@ -34,6 +35,31 @@ void preorder(BiTNode *root) //先序遍历root指向根的二叉树  递归方�
     } 
 }//preorder
 
+// ------ 辅导书代码 非递归先序遍历 --------
+void preOrder(BiTNode *root)
+{
+    stack<BiTNode*> s;
+    BiTNode *p;
+    s.push(root);
+    while (!s.empty())
+    {
+        p = s.top();
+        cout << p->data << " ";
+        s.pop();
+        if (p->Rchild)
+        {
+            s.push(p->Rchild);
+        }
+        if (p->Lchild)
+        {
+            s.push(p->Lchild);
+        }
+        
+    }
+    
+}
+
+
 // ------ PPT代码 中序遍历 --------
 void inorder(BiTNode *root) //中序遍历root指向根的二叉树  递归方式
 {
@@ -45,6 +71,31 @@ void inorder(BiTNode *root) //中序遍历root指向根的二叉树  递归方�
     } 
 }//inorder
 
+// ------ 辅导书代码 非递归中序遍历 --------
+void InOrder(BiTree T)
+{
+    stack<BiTNode*> s;
+    BiTNode *p = new BiTNode;
+    p = T;                           // 根指针进栈
+    BiTNode *q = new BiTNode;
+    while (p||!s.empty())
+    {
+        if (p)
+        {
+            s.push(p);
+            p = p->Lchild;
+        }
+        else                         // 根指针退栈，访问根结点，遍历右子树
+        {
+            q = s.top();
+            s.pop();
+            cout << q->data << " ";
+            p = q->Rchild;
+        }
+    }
+}
+
+
 // ------ PPT代码 后序遍历 --------
 void postorder(BiTNode *root) //后序遍历root指向根的二叉树  递归方式
 {
@@ -54,8 +105,37 @@ void postorder(BiTNode *root) //后序遍历root指向根的二叉树  递归方
         postorder(root->Rchild);  // 后序遍历根的右子树
         cout << root->data;      // 访问根结点
     } 
-}//inorder
+}//postorder
 
+// ------ 辅导书代码 非递归后序遍历 --------
+void postOrder(BiTNode *root)
+{
+    stack<BiTNode*>s;
+    BiTNode *p;
+    BiTNode *pre = NULL;
+    s.push(root);
+    while (!s.empty())
+    {
+        p = s.top();
+        if ((p->Lchild == NULL && p->Rchild == NULL)|| (pre != NULL && (pre == p->Lchild || pre == p->Rchild)))
+        {
+            cout << p->data << " ";
+            s.pop();
+            pre = p;
+        }
+        else
+        {
+            if (p->Rchild != NULL)
+            {
+                s.push(p->Rchild);
+            }
+            if (p->Lchild != NULL)
+            {
+                s.push(p->Lchild);
+            }
+        }
+    }
+}
 
 // ------- PPT代码 线索二叉树结构体 --------
 typedef struct BiThrNode
