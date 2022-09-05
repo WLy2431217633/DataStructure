@@ -1,5 +1,5 @@
 #include <iostream>
- #include<stack>           //头文件
+#include<stack>           //头文件
 using namespace std;
 
 #define OVERFLOW -2          // 溢出
