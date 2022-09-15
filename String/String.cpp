@@ -147,7 +147,7 @@ int Index_KMP(Sstring S, Sstring P, int pos)
         }
         else
         {   //下面相当于 j = next[j]
-            i = i-j+2;
+            i = i-j+2;      // 朴素模式匹配
             j = 1;
         }
     }
