@@ -62,14 +62,18 @@ int Partition(SqList &L, int low, int high)
     int pivotkey = L.r[0].key;
     while (low < high)
     {
+        // 高端的值比枢轴的值要大
         while (low < high && L.r[high].key >= pivotkey)
         {
-            high--;               // 枢轴的值比高端的值要大
-        }
+            high--;               
+        }           
+        // 高端的值比枢轴的值要小时
         L.r[low] = L.r[high];     // 将比枢轴小的值移到低端
+
+        // 高端的值比枢轴的值要小   
         while (low < high && L.r[high].key <= pivotkey)
         {
-            low++;                 // 枢轴的值比高端的值要小    
+            low++;                  
         }
         L.r[high] = L.r[low];      // 将比枢轴大的值移到高端
     }
