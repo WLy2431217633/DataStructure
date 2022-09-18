@@ -83,13 +83,13 @@ void Binary_Insert_Sort(SqList &L)
 // -------- PPT 代码 希尔排序 --------
 void Shell_Insert_Sort(SqList &L, int dk)           // dk增量
 {
-    for (int i = dk; i <= L.length; i++)
+    for (int i = dk+1; i <= L.length; i++)
     {
         if (L.r[i].key < L.r[i-dk].key)            // 各一个增量位置比较
         {
             L.r[0] = L.r[i];                       // L.r[i]暂存入L.r[0]
-            int j = i - dk;
-            for (j; j > 0 && L.r[0].key < L.r[j].key; j-=dk)
+            int j = 0;
+            for (j= i - dk; j > 0 && L.r[0].key < L.r[j].key; j-=dk)
             {
                 L.r[j+dk] = L.r[j];                // 寻找插入位置时记录后移
             }
