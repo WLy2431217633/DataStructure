@@ -97,8 +97,8 @@ int Index(SqString S, SqString P)
         if (j==P.length)
         {
             return (i-P.length);  // 匹配成功
-            return -1;            // 匹配失败
         }
+        return -1;            // 匹配失败
         
     }
     
